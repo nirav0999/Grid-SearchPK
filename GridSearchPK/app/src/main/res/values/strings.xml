@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Grid Search PK</string>
+    <string name="action_settings">Settings</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="login_now">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="don_t_remember_password">Forgot password?</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="sign_in_with_facebook">Sign in with Google</string>
+    <string name="signed_up">Already registered. Log in</string>
+    <string name="or">or</string>
+    <string name="auth_failed">email/password incorrect</string>
+    <string name="username">User Name</string>
+    <string name="r_string">R-String.</string>
+    <string name="fill_all_details">Please fill-in all fields</string>
+    <string name="error">There was some error, please try again later.</string>
+    <string name="forgot_password_text">Enter your email address to reset your password.</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="forgot_password_heading">Forgot Password?</string>
+    <string name="logo">logo</string>
+    <string name="proceed">Proceed</string>
+    <string name="choose_directions">Choose directions:</string>
+</resources>
