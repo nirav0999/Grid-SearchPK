@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,36 +76,40 @@ public class LogInActivity extends AppCompatActivity
                             if(task.isSuccessful())
                             {
                                 List<DocumentSnapshot> users=task.getResult().getDocuments();
+                                boolean user_found=false;
                                 for(int i=0;i<users.size();i++)
                                 {
                                     String email=(String) users.get(i).get("email");
                                     String password=(String)users.get(i).get("password");
                                     if(email.equals(emailEditText.getText().toString()) && password.equals(passwordEditText.getText().toString()))
                                     {
+                                        user_found=true;
                                         Intent intent=new Intent(LogInActivity.this,RStringActivity.class);
                                         intent.putExtra("dir1",users.get(i).get("dir1").toString());
                                         intent.putExtra("dir1_steps",users.get(i).get("dir1_steps").toString());
                                         intent.putExtra("dir2",users.get(i).get("dir2").toString());
                                         intent.putExtra("dir2_steps",users.get(i).get("dir2_steps").toString());
                                         intent.putExtra("r_string",users.get(i).get("r_string").toString());
+                                        intent.putExtra("user_name",users.get(i).get("user_name").toString());
                                         startActivity(intent);
                                         break;
                                     }
                                     else if(!email.equals(emailEditText.getText().toString()) && password.equals(passwordEditText.getText().toString()))
                                     {
+                                        user_found=true;
                                         emailEditText.setError("Email address incorrect");
                                         break;
                                     }
                                     else if(email.equals(emailEditText.getText().toString()) && !password.equals(passwordEditText.getText().toString()))
                                     {
+                                        user_found=true;
                                         passwordEditText.setError("Password incorrect");
                                         break;
                                     }
-                                    else
-                                    {
-                                        Toast.makeText(LogInActivity.this,"User not found",Toast.LENGTH_SHORT).show();
-                                        break;
-                                    }
+                                }
+                                if(!user_found)
+                                {
+                                    Toast.makeText(LogInActivity.this,"User not found",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }

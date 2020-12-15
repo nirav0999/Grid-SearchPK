@@ -25,6 +25,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -35,8 +37,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText usernameEditText,emailEditText,passwordEditText,rStringEditText;
     Snackbar snackbar;
     ConstraintLayout constraintLayout;
-    String[] dir1List={"First direction","Up","Down","Left","Right"};
-    String[] dir2List={"Second direction","Up","Down","Left","Right"};
+    String[] dir1List={"First direction","Up","Down"};
+    String[] dir2List={"Second direction","Left","Right"};
     SeekBar dir1Seekbar,dir2Seekbar;
     TextView dir1Steps,dir2Steps,logIn;
     Spinner dir1Spinner,dir2Spinner;
@@ -200,7 +202,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 user.put("user_name",usernameEditText.getText().toString());
                                 user.put("email",emailEditText.getText().toString());
                                 user.put("password",passwordEditText.getText().toString());
-                                user.put("r_string",rStringEditText.getText().toString());
+                                user.put("r_string",rStringEditText.getText().toString().toUpperCase());
                                 user.put("dir1",dir1Spinner.getSelectedItem().toString());
                                 user.put("dir1_steps",dir1Seekbar.getProgress()+"");
                                 user.put("dir2",dir2Spinner.getSelectedItem().toString());

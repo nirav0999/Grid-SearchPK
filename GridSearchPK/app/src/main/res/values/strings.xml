@@ -12,7 +12,7 @@
     <string name="or">or</string>
     <string name="auth_failed">email/password incorrect</string>
     <string name="username">User Name</string>
-    <string name="r_string">R-String.</string>
+    <string name="r_string">R-String (case-insensitive)</string>
     <string name="fill_all_details">Please fill-in all fields</string>
     <string name="error">There was some error, please try again later.</string>
     <string name="forgot_password_text">Enter your email address to reset your password.</string>
@@ -21,4 +21,5 @@
     <string name="logo">logo</string>
     <string name="proceed">Proceed</string>
     <string name="choose_directions">Choose directions:</string>
+    <string name="login">Login</string>
 </resources>
