@@ -43,11 +43,11 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="80dp"
                 android:contentDescription="@string/logo"
-                android:src="@drawable/ic_launcher_foreground"
+                android:src="@drawable/unnamed"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
                 app:layout_constraintStart_toStartOf="@+id/guideline_left"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -237,11 +237,21 @@
             app:layout_constraintStart_toStartOf="@+id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/dir_2_layout" />
 
+        <View
+            android:id="@+id/footer_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginBottom="30dp"
+            android:background="#fff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
             android:id="@+id/log_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="44dp"
             android:text="@string/signed_up"
             android:textColor="@color/login_form_details"
             android:textSize="16sp"

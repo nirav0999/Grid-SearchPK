@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 public class RStringActivity extends AppCompatActivity
 {
@@ -27,7 +28,7 @@ public class RStringActivity extends AppCompatActivity
     Button loginButton;
     static TextView rStringTextView;
     static char[][] grid;
-    static int gridSize=5;
+    static int gridSize;
     static String registeredPswd;
     static int horizontal;
     static int vertical;
@@ -35,6 +36,7 @@ public class RStringActivity extends AppCompatActivity
     static int verSteps;
     String user_name;
     Intent intent;
+    Random random;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +72,11 @@ public class RStringActivity extends AppCompatActivity
         rStringTextView=findViewById(R.id.r_string_textview);
         loginButton=findViewById(R.id.submit_button);
 
+        random=new Random();
+        gridSize=5+random.nextInt(7-5+1);
+//        Log.d("grdsze",gridSize+" "+registeredPswd);
         buttonsGrid.setNumColumns(gridSize);
-        char[][] arr=create_random_matrix(gridSize);
+        char[][] arr=create_random_matrix(registeredPswd,gridSize);
         grid=arr;
 
         lettersArrayList=flattenGrid(grid);
@@ -122,78 +127,77 @@ public class RStringActivity extends AppCompatActivity
         });
     }
 
-    public static char findCharAtPos(int x,int y)
-    {
+    public static char findCharAtPos(int x, int y) {
 
-        int upd_x=(x+vertical*verSteps+gridSize)%gridSize;
-        int upd_y=(y+horizontal*horSteps+gridSize)%gridSize;
+        int upd_x = (x + vertical*verSteps + gridSize) % gridSize;
+        int upd_y = (y + horizontal*horSteps + gridSize) % gridSize;
+
         return grid[upd_x][upd_y];
     }
 
-    public static ArrayList<Character> uniqueCharacters(String test)
-    {
+    public static ArrayList<Character> uniqueCharacters(String test){
         ArrayList<Character> vowels = new ArrayList<>();
-        String temp="";
-        for(int i=0; i<test.length();i++)
-        {
-            char current=test.charAt(i);
-            if(temp.indexOf(current)<0)
-            {
-                temp=temp+current;
+        String temp = "";
+        for (int i = 0; i < test.length(); i++){
+            char current = test.charAt(i);
+            if (temp.indexOf(current) < 0){
+                temp = temp + current;
                 vowels.add(current);
             }
         }
 
-        System.out.println(temp+" ");
+        System.out.println(temp + " ");
         return vowels;
+
     }
 
-    public static char[][] create_random_matrix(int gridSize)
-    {
-        char[][] arr=new char[gridSize][gridSize];
+    public static char[][] create_random_matrix(String registeredPswd, int gridSize){
+        char[][] arr = new char[gridSize][gridSize];
 
         // Get all unique characters from the registered password
-        ArrayList<Character> uniq_char=uniqueCharacters(registeredPswd);
+        ArrayList<Character> uniq_char = uniqueCharacters(registeredPswd);
+        System.out.print("Unique characters in registered password = ");
+        System.out.println(uniq_char);
 
         // Get all the rest of the unique characters in the alphabet
-        ArrayList<Character> restOfUnique=new ArrayList<>();
-        for(char c = 'A'; c <= 'Z'; ++c)
-        {
+        ArrayList<Character> restOfUnique = new ArrayList<>();
+        String symbols = "!@#$%^&*()_-+=[]{}?<>.,~`";
+
+        for(char c = 'A'; c <= 'Z'; ++c) {
             int i;
-            boolean check = true;
-            for (i=0;i<uniq_char.size();i++)
-            {
-                if(c==uniq_char.get(i))
-                {
-                    check=false;
-                    break;
-                }
-            }
-            if(check)
-            {
-                restOfUnique.add(c);
-            }
+            restOfUnique.add(c);
         }
+
+        for(int i = 0;i < symbols.length();i++){
+            char c1 = symbols.charAt(i);
+            restOfUnique.add(c1);
+        }
+
         // Shuffle the rest of the unique characters
         Collections.shuffle(restOfUnique);
+        System.out.print("Rest of the unique characters in registered password = ");
+        System.out.println(restOfUnique);
 
         int empty_slots_left = gridSize * gridSize - uniq_char.size();
+        System.out.print("The grid must contain the unique characters of the registered password = ");
+        System.out.println(empty_slots_left);
 
-        for(int j=0;j<empty_slots_left;j++)
-        {
+        for(int j = 0;j < empty_slots_left; j++){
             uniq_char.add(restOfUnique.get(j));
         }
+        System.out.print("Letters in the grid = ");
+        System.out.println(uniq_char);
         Collections.shuffle(uniq_char);
 
         for(int i=0; i < gridSize;i++) {
             for (int j = 0; j < gridSize; j++) {
                 arr[i][j] = uniq_char.get(j * gridSize + i);
+                System.out.print(arr[i][j] + " ");
             }
+            System.out.println();
         }
-        Log.d("ghghgh",Arrays.deepToString(arr));
         return arr;
     }
-
     public static boolean check(String enteredPswd){
 
         /**
@@ -219,9 +223,9 @@ public class RStringActivity extends AppCompatActivity
 
             char chReg = registeredPswd.charAt(p);
 
-            for(int i=0;i<gridSize;i++) {
+            boolean correct = false;
 
-                boolean found = false;
+            for(int i=0;i<gridSize;i++) {
 
                 for(int j=0;j<gridSize;j++) {
 
@@ -229,21 +233,23 @@ public class RStringActivity extends AppCompatActivity
 
                         char chAct = findCharAtPos(i,j);
 
-                        if(chAct!=enteredPswd.charAt(p)) {
-                            return false;
+                        if(chAct==enteredPswd.charAt(p)) {
+                            correct = true;
+                            break;
                         }
 
-                        found = true;
-                        break;
                     }
 
                 }
 
-                if(found) {
+                if(correct) {
                     break;
                 }
             }
 
+            if(!correct) {
+                return false;
+            }
         }
 
         return true;
